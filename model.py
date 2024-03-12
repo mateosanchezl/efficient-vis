@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import torchvision.transforms.functional as F
 import json
 
-def make_prediction(img_path):
+def predict(img_path):
     # Defining model with pretrained weights
     model = efficientnet_v2_s(weights=EfficientNet_V2_S_Weights.IMAGENET1K_V1)
 
@@ -34,10 +34,7 @@ def make_prediction(img_path):
     # get class label dict 
     with open("imagenet_class_index.json", "r") as f:
         class_dict = json.load(f)
-    classes = ([value[1] for value in class_dict.values()])
+    classes = ([value[1].replace("_", " ").title() for value in class_dict.values()])
 
-    return f"Model is {probabilities[0]:2f}% sure image is a {classes[indices_list[0]].lower()}"
+    return f"EfficientNetV2 predicted {classes[indices_list[0]]} with {probabilities[0]:2f}% confidence."
 
-if __name__ == "__main__":
-    img_path = input("Image path: ")
-    print(make_prediction(img_path))
