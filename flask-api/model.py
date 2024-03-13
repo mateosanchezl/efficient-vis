@@ -12,6 +12,9 @@ def predict(img_path):
 
     image = mpimg.imread(img_path)
     img_tensor = torch.tensor(image)
+    if img_tensor.shape[-1] > 3:
+        # Discard additional channels
+        img_tensor = img_tensor[..., :3]
     img_correct_shape = img_tensor.permute(2, 0, 1) # correct shape
 
     # transform used in training of efficientnet
@@ -36,5 +39,9 @@ def predict(img_path):
         class_dict = json.load(f)
     classes = ([value[1].replace("_", " ").title() for value in class_dict.values()])
 
-    return f"EfficientNetV2 predicted {classes[indices_list[0]]} with {probabilities[0]:2f}% confidence."
+    return f"EfficientNetV2 predicted {classes[indices_list[0]]} with {round(probabilities[0], 2)}% confidence."
 
+
+if __name__ == '__main__':
+    img_path = input("Image Path: ")
+    print(predict(img_path))
