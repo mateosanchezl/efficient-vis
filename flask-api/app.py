@@ -7,9 +7,12 @@ import model
 # init app
 app = Flask(__name__)
 CORS(app)
-    
-# image upload
-images_folder = './images'
+
+# on mac:
+# images_folder = './images'
+
+# on windows:
+images_folder = rf'C:\Users\Mateo\Desktop\repo-projects-clone\efficientnet-deployed\flask-api\images'
 
 
 @app.route('/')
@@ -25,7 +28,7 @@ def upload_image():
         return {'Error': 'Empty image file submitted'}
     filename = secure_filename(file.filename)
     image_path = os.path.join(images_folder, filename)
-    if filename not in os.listdir('./images'):   
+    if filename not in os.listdir(images_folder):   
         file.save(image_path)
     
     return model.predict(image_path, 5)
