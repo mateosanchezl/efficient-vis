@@ -4,7 +4,7 @@ import "./App.css";
 import Loading from "./components/Loading";
 
 function App() {
-  const [prediction, setPrediction] = useState("Waiting on image...");
+  const [predictions, setPredictions] = useState({});
   const [image, setImage] = useState();
   const [imageUploaded, setImageUploaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,11 +24,25 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setPrediction(data.prediction);
+        setPredictions(data);
         setIsLoading(false);
-      });
+      })
+      .catch((error) => console.log(error));
   };
 
+  const predictionDisplay = () => {
+    if (Object.keys(predictions).length > 0) {
+      return Object.entries(predictions).map(([key, value]) => {
+        return (
+          <p>
+            {value.prediction} with {value.confidence}% confidence
+          </p>
+        );
+      });
+    } else {
+      return "Waiting for prediction...";
+    }
+  };
   return (
     <div className="flex flex-col h-screen">
       <Header />
@@ -44,7 +58,9 @@ function App() {
       </div>
 
       <div className="pb-20">
-        <div className="text-xl">{isLoading ? <Loading /> : prediction}</div>
+        <div className="text-xl">
+          {isLoading ? <Loading /> : predictionDisplay()}
+        </div>
         <label className="form-control w-full max-w-xs cent">
           <div className="label">
             <span className="label-text text-lg">Upload or drop an image</span>
