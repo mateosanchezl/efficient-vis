@@ -20,12 +20,10 @@ function Hero() {
       <div className="hero-overlay absolute inset-0 bg-black opacity-50"></div>
       <div className="hero-content text-center text-neutral-content relative z-10">
         <div className="max-w-md">
-          <h1 className="mb-5 text-5xl font-bold text-white">EfficientNet</h1>
+          <h1 className="mb-5 text-5xl font-bold text-white">ComVis</h1>
           <p className="mb-5 text-white">
-            EfficientNetV2 is an advanced convolutional neural network
-            architecture optimized for resource efficiency, achieving high
-            accuracy with fewer parameters, enabling faster and more efficient
-            model training and deployment.
+            A simple website to test pre-trained state of the art computer
+            vision models trained on ImageNet-1k on your own images.
           </p>
           <button className="btn btn-primary" onClick={navigateToHome}>
             Get Started

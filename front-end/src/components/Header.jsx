@@ -1,8 +1,16 @@
 import React from "react";
 
-function Header() {
+function Header({ selectedModel }) {
   return (
-    <h1 className="text-3xl font-bold">EfficientNetV2 Image Classification</h1>
+    <>
+      <h1 className="text-3xl font-bold">Image Classification Model Testing</h1>
+      {selectedModel.length > 1 ? (
+        <h2 className="pt-2">
+          <span className="text-accent font-extralight">{selectedModel}</span>{" "}
+          currently selected
+        </h2>
+      ) : undefined}
+    </>
   );
 }
 

@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import Loading from "./Loading";
-import { useState } from "react";
 
 function PredictionDisplay({ predictions, isLoading }) {
   const [normalised, setNormalised] = useState(false);
@@ -9,15 +8,27 @@ function PredictionDisplay({ predictions, isLoading }) {
     if (Object.keys(predictions).length > 0) {
       return (
         <>
-          <p className="text-3xl">
-            Model's Top {Object.keys(predictions).length} Predictions:{" "}
+          <p className="text-2xl font-semibold">
+            Top {Object.keys(predictions).length} Predictions:{" "}
           </p>
           <br />
-          {multiplePrediction()}
+          <div className="">
+            <table className="table">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Label</th>
+                  <th>Confidence</th>
+                </tr>
+              </thead>
+              <tbody>{multiplePrediction()}</tbody>
+            </table>
+          </div>
           <br />
           {!normalised ? (
             <button
-              className="btn"
+              className="btn btn-accent mt-4"
               onClick={() => {
                 setNormalised(true);
               }}
@@ -26,7 +37,7 @@ function PredictionDisplay({ predictions, isLoading }) {
             </button>
           ) : (
             <button
-              className="btn"
+              className="btn btn-secondary mt-4"
               onClick={() => {
                 setNormalised(false);
               }}
@@ -40,7 +51,6 @@ function PredictionDisplay({ predictions, isLoading }) {
       return "Waiting for image...";
     }
   };
-
   const normalise = (predictions) => {
     let total = 0;
     for (const key in predictions) {
@@ -64,34 +74,39 @@ function PredictionDisplay({ predictions, isLoading }) {
     const normalisedPredictions = normalise(predictions);
     if (!normalised) {
       // console.log(predictions);
-      return Object.entries(predictions).map(([key, value]) => {
+      return Object.entries(predictions).map(([key, value], index) => {
         return (
-          <p>
-            {value.prediction} - {value.confidence}%
-          </p>
+          <tr>
+            <th>{index + 1}</th>
+            <td className="font-bold">{value.prediction}</td>
+            <td>{value.confidence}%</td>
+          </tr>
         );
       });
     } else {
       // console.log(normalise(predictions));
-      return Object.entries(normalisedPredictions).map(([key, value]) => {
-        return (
-          <p>
-            {value.prediction} -{" "}
-            <span
-              className={
-                value.confidence > 50 ? "text-green-300" : "text-orange-300"
-              }
-            >
-              {value.confidence}%
-            </span>
-          </p>
-        );
-      });
+      return Object.entries(normalisedPredictions).map(
+        ([key, value], index) => {
+          return (
+            <tr>
+              <th>{index + 1}</th>
+              <td className="font-bold">{value.prediction}</td>
+              <td
+                className={`${
+                  value.confidence > 50 ? "text-green-300" : "text-orange-300"
+                } font-semibold`}
+              >
+                {value.confidence}%
+              </td>
+            </tr>
+          );
+        }
+      );
     }
   };
 
   return (
-    <div className="text-xl">
+    <div className="text-xl mb-8">
       {isLoading ? <Loading /> : predictionDisplay()}
     </div>
   );

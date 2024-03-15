@@ -7,5 +7,11 @@ export default {
   plugins: [require("daisyui")],
   daisyui: {
     themes: ["dracula"],
+    styled: true,
+    themes: true,
+    base: true,
+    utils: true,
+    logs: true,
+    rtl: false,
   },
 };
