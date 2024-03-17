@@ -1,8 +1,9 @@
 import React from "react";
+import ImageModification from "./ImageModification";
 
 function ImageUpload({ handleFileChange }) {
   return (
-    <div className="form-control w-full max-w-xs mb-8">
+    <div className="form-control w-full max-w-xs">
       <label>
         <div className="label">
           <span className="label-text text-lg">Upload or drop an image</span>
@@ -12,7 +13,6 @@ function ImageUpload({ handleFileChange }) {
           className="file-input file-input-bordered w-full max-w-xs"
           onChange={handleFileChange}
         />
-        <div className="label"></div>
       </label>
     </div>
   );

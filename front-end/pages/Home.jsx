@@ -5,6 +5,8 @@ import PredictionDisplay from "../src/components/PredictionDisplay";
 import ImageUpload from "../src/components/ImageUpload";
 import NumPredictions from "../src/components/NumPredictions";
 import ModelSelection from "../src/components/ModelSelection";
+import ResetImageButton from "../src/components/ResetImageButton";
+import ImageModification from "../src/components/ImageModification";
 
 function Home() {
   const [predictions, setPredictions] = useState({});
@@ -12,19 +14,44 @@ function Home() {
   const [imageUploaded, setImageUploaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [numPreds, setNumPreds] = useState(3);
-  const [selectedModel, setSelectedModel] = useState("");
+  const [selectedModel, setSelectedModel] = useState("efficientnet_b0");
+  const [file, setFile] = useState(null);
 
   const handleFileChange = (event) => {
     setIsLoading(true);
-    const file = event.target.files[0];
-    setImage(URL.createObjectURL(file));
-    setImageUploaded(true);
+    const uploadedFile = event.target.files[0];
 
+    if (!uploadedFile) {
+      setIsLoading(false);
+      return;
+    }
+
+    setFile(uploadedFile);
+    console.log(uploadedFile);
+    setImage(URL.createObjectURL(uploadedFile));
+    setImageUploaded(true);
+    const formData = new FormData();
+    formData.append("file", uploadedFile);
+    formData.append("numPreds", numPreds);
+    formData.append("model", selectedModel);
+    fetch("http://127.0.0.1:5000/upload", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setPredictions(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleRefresh = () => {
+    setIsLoading(true);
     const formData = new FormData();
     formData.append("file", file);
     formData.append("numPreds", numPreds);
     formData.append("model", selectedModel);
-    console.log(formData);
     fetch("http://127.0.0.1:5000/upload", {
       method: "POST",
       body: formData,
@@ -57,11 +84,20 @@ function Home() {
           <ImageDisplay image={image} imageUploaded={imageUploaded} />
         </div>
         <div>
+          <ResetImageButton
+            imageUploaded={imageUploaded}
+            handleRefresh={handleRefresh}
+            isLoading={isLoading}
+          />
           <PredictionDisplay predictions={predictions} isLoading={isLoading} />
         </div>
       </div>
       <div>
-        <ImageUpload handleFileChange={handleFileChange} />
+        <ImageUpload
+          handleFileChange={handleFileChange}
+          imageUploaded={imageUploaded}
+        />
+        <ImageModification imageUploaded={imageUploaded} />
         <NumPredictions
           value={numPreds}
           handleNumPredsChange={handleNumPredsChange}

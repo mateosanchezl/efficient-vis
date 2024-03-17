@@ -2,7 +2,7 @@ import React from "react";
 
 function NumPredictions({ value, handleNumPredsChange }) {
   return (
-    <div className="form-control w-full max-w-xs mb-8">
+    <div className="form-control w-full max-w-xs mb-4 pt-4">
       <div className="flex items-center justify-center">
         <p className="pb-5">Number of Predictions:</p>
       </div>

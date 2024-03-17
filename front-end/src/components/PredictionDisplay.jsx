@@ -69,14 +69,11 @@ function PredictionDisplay({ predictions, isLoading }) {
   };
 
   const multiplePrediction = () => {
-    console.log("Currently normalised flag", normalised);
-    console.log("Original", predictions);
     const normalisedPredictions = normalise(predictions);
     if (!normalised) {
-      // console.log(predictions);
       return Object.entries(predictions).map(([key, value], index) => {
         return (
-          <tr>
+          <tr key={index}>
             <th>{index + 1}</th>
             <td className="font-bold">{value.prediction}</td>
             <td>{value.confidence}%</td>
@@ -84,7 +81,6 @@ function PredictionDisplay({ predictions, isLoading }) {
         );
       });
     } else {
-      // console.log(normalise(predictions));
       return Object.entries(normalisedPredictions).map(
         ([key, value], index) => {
           return (

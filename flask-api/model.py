@@ -5,10 +5,18 @@ import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import torchvision.transforms.functional as F
 import json
+from model_configs import models_config
 
-def predict(img_path: str, top_n: int):
+def predict(img_path: str, top_n: int, model: str):
     # Defining model with pretrained weights
-    model = efficientnet_v2_s(weights=EfficientNet_V2_S_Weights.IMAGENET1K_V1)
+    model_func = models_config[model]['model_func']
+    weights = models_config[model]['weights']
+    resize = models_config[model]['transform_info']['resize_size']
+    interpolation = models_config[model]['transform_info']['interpolation']
+    central_crop = models_config[model]['transform_info']['central_crop']
+    mean, std = models_config[model]['transform_info']['normalise_params']
+    
+    model = model_func(weights=weights)
 
     image = mpimg.imread(img_path)
     img_tensor = torch.tensor(image)
@@ -17,13 +25,13 @@ def predict(img_path: str, top_n: int):
         img_tensor = img_tensor[..., :3]
     img_correct_shape = img_tensor.permute(2, 0, 1) # correct shape
 
-    # transform used in training of efficientnet
+   # transform used in training of efficientnet
     efficientnet_transforms = transforms.Compose([
         transforms.ToPILImage(),
-        transforms.Resize((384, 384), interpolation=F.InterpolationMode.BILINEAR),
-        transforms.CenterCrop(384),
+        transforms.Resize((resize, resize), interpolation=interpolation),
+        transforms.CenterCrop(central_crop),
         transforms.ToTensor(),
-        transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
+        transforms.Normalize((mean), (std)),
     ])
     # transform
     transformed = efficientnet_transforms(img_correct_shape)
@@ -54,4 +62,6 @@ def predict(img_path: str, top_n: int):
 
 if __name__ == '__main__':
     img_path = input("Image Path: ")
-    print(predict(img_path))
+    n_preds = input("Number of predictions: ")
+    chosen_model = input("Model: ")
+    print(predict(img_path, n_preds, chosen_model))

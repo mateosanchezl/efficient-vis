@@ -32,9 +32,9 @@ def upload_image():
         file.save(image_path)
     
     n_preds = request.form.get('numPreds', default=3, type=int)
-    chosen_model = request.form.get('model', default='efficientnet_v2_s', type=str)
-    
-    return model.predict(image_path, n_preds)
+    chosen_model = request.form.get('model', type=str)
+
+    return model.predict(image_path, n_preds, chosen_model)
 
 if __name__ == '__main__':
     app.run(debug=True)
