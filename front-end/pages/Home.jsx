@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Header from "../src/components/Header";
 import ImageDisplay from "../src/components/ImageDisplay";
 import PredictionDisplay from "../src/components/PredictionDisplay";
@@ -6,10 +6,10 @@ import ImageUpload from "../src/components/ImageUpload";
 import NumPredictions from "../src/components/NumPredictions";
 import ModelSelection from "../src/components/ModelSelection";
 import ResetImageButton from "../src/components/ResetImageButton";
-import ImageModification from "../src/components/ImageModification";
 
 function Home() {
   const [predictions, setPredictions] = useState({});
+  const [transformedImageFilename, setransformedImageFilename] = useState();
   const [image, setImage] = useState();
   const [imageUploaded, setImageUploaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +40,8 @@ function Home() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setPredictions(data);
+        setPredictions(data.predictions);
+        setransformedImageFilename(data.transformedImageFile);
         setIsLoading(false);
       })
       .catch((error) => console.log(error));
@@ -58,7 +59,7 @@ function Home() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setPredictions(data);
+        setPredictions(data.predictions);
         setIsLoading(false);
       })
       .catch((error) => console.log(error));
@@ -81,7 +82,11 @@ function Home() {
       <Header selectedModel={selectedModel} />
       <div>
         <div>
-          <ImageDisplay image={image} imageUploaded={imageUploaded} />
+          <ImageDisplay
+            image={image}
+            imageUploaded={imageUploaded}
+            transformedImageFile={transformedImageFilename}
+          />
         </div>
         <div>
           <ResetImageButton
@@ -97,7 +102,6 @@ function Home() {
           handleFileChange={handleFileChange}
           imageUploaded={imageUploaded}
         />
-        <ImageModification imageUploaded={imageUploaded} />
         <NumPredictions
           value={numPreds}
           handleNumPredsChange={handleNumPredsChange}

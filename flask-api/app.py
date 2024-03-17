@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 from werkzeug.utils import secure_filename
 import os
 from flask_cors import CORS
@@ -35,6 +35,11 @@ def upload_image():
     chosen_model = request.form.get('model', type=str)
 
     return model.predict(image_path, n_preds, chosen_model)
+
+@app.route('/images/<filename>')
+def serve_image(filename):
+    return send_from_directory(images_folder, filename)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

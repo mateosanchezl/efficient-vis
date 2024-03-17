@@ -6,6 +6,17 @@ import matplotlib.pyplot as plt
 import torchvision.transforms.functional as F
 import json
 from model_configs import models_config
+import os 
+import numpy as np
+
+def save_transform(transformed_permute: torch.Tensor, img_path: str):   
+    base, extension = os.path.splitext(img_path)
+    new_path = f"{base}_t{extension}"
+    min = transformed_permute.min()
+    max = transformed_permute.max()
+    transformed_permute_normed = (transformed_permute - min) / (max - min)
+    mpimg.imsave(new_path, np.array(transformed_permute_normed))
+    return os.path.basename(new_path)
 
 def predict(img_path: str, top_n: int, model: str):
     # Defining model with pretrained weights
@@ -36,6 +47,9 @@ def predict(img_path: str, top_n: int, model: str):
     # transform
     transformed = efficientnet_transforms(img_correct_shape)
 
+    # save transformed image
+    transformed_image_file = save_transform(transformed.permute(1, 2, 0), img_path)
+    
     model.eval()
     pred = model(transformed.unsqueeze(dim=0)) # get prediction
     result = torch.sort(pred.softmax(dim=1), descending=True) # sorted predictions after softmax
@@ -57,7 +71,7 @@ def predict(img_path: str, top_n: int, model: str):
     
     output = {key: {"prediction": pred, "confidence": conf} for key, pred, conf in zip(json_keys, top_preds, top_preds_confidence)}
 
-    return  output
+    return  {"predictions": output, "transformedImageFile": transformed_image_file}
 
 
 if __name__ == '__main__':
