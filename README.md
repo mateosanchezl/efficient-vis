@@ -32,3 +32,16 @@ While in the `front-end` folder, run:
 `npm install`
 
 `npm run dev`
+
+### Quick Setup
+
+For Unix systems, `setup_project_sh` can be used for quick setup:
+
+In the root project directory:
+
+Ensure shell script is executable: 
+`chmod +x setup_project.sh`
+
+Then run script: 
+`./setup_project.sh`
+
