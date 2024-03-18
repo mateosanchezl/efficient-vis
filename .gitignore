@@ -1,1 +1,3 @@
 .DS_Store
+flask-api/images/
+flask-api/__pycache__/
