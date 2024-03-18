@@ -8,11 +8,7 @@ import model
 app = Flask(__name__)
 CORS(app)
 
-# on mac:
-# images_folder = './images'
-
-# on windows:
-images_folder = rf'C:\Users\Mateo\Desktop\repo-projects-clone\efficientnet-deployed\flask-api\images'
+images_folder = './images'
 
 @app.route('/')
 def home():

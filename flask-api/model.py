@@ -1,8 +1,6 @@
 import torch
 import torchvision.transforms as transforms
-from torchvision.models import efficientnet_v2_s, EfficientNet_V2_S_Weights
 import matplotlib.image as mpimg
-import matplotlib.pyplot as plt
 import torchvision.transforms.functional as F
 import json
 from model_configs import models_config
