@@ -1,6 +1,6 @@
 # EfficientVis: Explore EfficientNet Models with Ease
 
-## EfficientVis, is a simple website for exploring the capabilities of EfficientNet models pre-trained on ImageNet-1k. Designed with simplicity in mind, EfficientVis offers a user-friendly platform where anyone can effortlessly test all of the available EfficientNet architectures on their own images.
+EfficientVis, is a simple website for exploring the capabilities of EfficientNet models pre-trained on ImageNet-1k. Designed with simplicity in mind, EfficientVis offers a user-friendly platform where anyone can effortlessly test all of the available EfficientNet architectures on their own images.
 
 ### Key Features
 - Broad Model Coverage: Experiment with the entire range of pre-trained EfficientNet and EfficientNetv2 models. From EfficientNet-B0 to EfficientNet-B7, as well as all three versions of EfficientNetV2 explore the spectrum of capabilities and differences between the models.
