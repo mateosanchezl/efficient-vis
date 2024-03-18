@@ -89,7 +89,7 @@ function PredictionDisplay({ predictions, isLoading }) {
               <td className="font-bold">{value.prediction}</td>
               <td
                 className={`${
-                  value.confidence > 50 ? "text-green-300" : "text-orange-300"
+                  value.confidence > 75 ? "text-green-300" : "text-orange-300"
                 } font-semibold`}
               >
                 {value.confidence}%

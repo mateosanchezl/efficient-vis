@@ -20,13 +20,19 @@ function Hero() {
       <div className="hero-overlay absolute inset-0 bg-black opacity-50"></div>
       <div className="hero-content text-center text-neutral-content relative z-10">
         <div className="max-w-md">
-          <h1 className="mb-5 text-5xl font-bold text-white">ComVis</h1>
+          <h1 className=" text-5xl font-bold text-white">EfficientVis</h1>
+          <a
+            className="btn btn-link text-accent"
+            href="https://arxiv.org/pdf/1905.11946v5.pdf"
+          >
+            EfficientNet Paper
+          </a>
           <p className="mb-5 text-white">
-            A simple website to test pre-trained state of the art computer
-            vision models trained on ImageNet-1k on your own images.
+            A simple website to test pre-trained EfficientNet computer vision
+            models trained on ImageNet-1k on your own images.
           </p>
           <button className="btn btn-primary" onClick={navigateToHome}>
-            Get Started
+            Test Models
           </button>
         </div>
       </div>
