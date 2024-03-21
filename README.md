@@ -2,6 +2,9 @@
 
 EfficientVis, is a simple website for exploring the capabilities of EfficientNet models pre-trained on ImageNet-1k. Designed with simplicity in mind, EfficientVis offers a user-friendly platform where anyone can effortlessly test all of the available EfficientNet architectures on their own images.
 
+![Example Prediction](/Users/mateo/efficient-vis-1 "Example Prediction")
+
+
 ### Key Features
 - Broad Model Coverage: Experiment with the entire range of pre-trained EfficientNet and EfficientNetv2 models. From EfficientNet-B0 to EfficientNet-B7, as well as all three versions of EfficientNetV2 explore the spectrum of capabilities and differences between the models.
 
@@ -13,35 +16,49 @@ EfficientVis, is a simple website for exploring the capabilities of EfficientNet
 
 - Local, Fast, and Secure: EfficientVis is designed to run locally, ensuring that your efficient and secure interactions.
 
-### Getting Started
+## Getting Started
 
-API: 
+### API Setup:
 
-Install all required Python packages:
-`pip install Flask werkzeug flask-cors torch torchvision matplotlib numpy`
+1. **Install all required Python packages** by running the following command:
 
-Then start the API with inside the `flask-api` folder:
-`python app.py`
+    ```bash
+    pip install Flask werkzeug flask-cors torch torchvision matplotlib numpy
+    ```
 
-Website:
+2. **Then start the API** within the `flask-api` folder by executing:
 
-Ensure Node.js and `npm` are installed.
+    ```bash
+    python app.py
+    ```
 
-While in the `front-end` folder, run:
+### Website Setup:
 
-`npm install`
+1. **Ensure Node.js and `npm` are installed** on your system.
 
-`npm run dev`
+2. **While in the `front-end` folder**, run the following commands to install dependencies and start the development server:
+
+    ```bash
+    npm install
+    npm run dev
+    ```
 
 ### Quick Setup
 
-For Unix systems, `setup_project_sh` can be used for quick setup:
+For Unix systems, the `setup_project.sh` script can be used for quick setup:
 
-In the root project directory:
+**In the root project directory:**
 
-Ensure shell script is executable: 
-`chmod +x setup_project.sh`
+1. **Ensure the shell script is executable** by running:
 
-Then run script: 
-`./setup_project.sh`
+    ```bash
+    chmod +x setup_project.sh
+    ```
+
+2. **Execute the script** to set up the project:
+
+    ```bash
+    ./setup_project.sh
+    ```
+
 
