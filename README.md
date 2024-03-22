@@ -2,7 +2,7 @@
 
 EfficientVis, is a simple website for exploring the capabilities of EfficientNet models pre-trained on ImageNet-1k. Designed with simplicity in mind, EfficientVis offers a user-friendly platform where anyone can effortlessly test all of the available EfficientNet architectures on their own images.
 
-![Example Prediction](/Users/mateo/efficient-vis-1 "Example Prediction")
+![Example Prediction](/Users/mateo/Desktop/efficient-vis-1 "Example Prediction")
 
 
 ### Key Features
