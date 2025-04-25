@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Loading from "./Loading";
+import AnimatedExplanation from "./AnimatedExplanation";
 
-function PredictionDisplay({ predictions, isLoading }) {
+function PredictionDisplay({ predictions, isLoading, explanation }) {
   const [normalised, setNormalised] = useState(false);
 
   const predictionDisplay = () => {
@@ -45,12 +46,27 @@ function PredictionDisplay({ predictions, isLoading }) {
               Revert
             </button>
           )}
+          <AnimatedExplanation explanation={explanation} />
         </>
       );
     } else {
       return "Waiting for image...";
     }
   };
+
+  const multiplePrediction = () => {
+    const normalisedPredictions = normalise(predictions);
+    return Object.keys(normalisedPredictions).map((key, index) => {
+      return (
+        <tr key={index}>
+          <td>{index + 1}</td>
+          <td>{normalisedPredictions[key].prediction}</td>
+          <td>{normalisedPredictions[key].confidence}%</td>
+        </tr>
+      );
+    });
+  };
+
   const normalise = (predictions) => {
     let total = 0;
     for (const key in predictions) {
@@ -68,41 +84,8 @@ function PredictionDisplay({ predictions, isLoading }) {
     return normalisedPredictions;
   };
 
-  const multiplePrediction = () => {
-    const normalisedPredictions = normalise(predictions);
-    if (!normalised) {
-      return Object.entries(predictions).map(([key, value], index) => {
-        return (
-          <tr key={index}>
-            <th>{index + 1}</th>
-            <td className="font-bold">{value.prediction}</td>
-            <td>{value.confidence}%</td>
-          </tr>
-        );
-      });
-    } else {
-      return Object.entries(normalisedPredictions).map(
-        ([key, value], index) => {
-          return (
-            <tr>
-              <th>{index + 1}</th>
-              <td className="font-bold">{value.prediction}</td>
-              <td
-                className={`${
-                  value.confidence > 75 ? "text-green-300" : "text-orange-300"
-                } font-semibold`}
-              >
-                {value.confidence}%
-              </td>
-            </tr>
-          );
-        }
-      );
-    }
-  };
-
   return (
-    <div className="text-xl mb-8">
+    <div className="flex flex-col justify-center items-center mb-8">
       {isLoading ? <Loading /> : predictionDisplay()}
     </div>
   );

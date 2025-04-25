@@ -6,6 +6,7 @@ import ImageUpload from "../src/components/ImageUpload";
 import NumPredictions from "../src/components/NumPredictions";
 import ModelSelection from "../src/components/ModelSelection";
 import ResetImageButton from "../src/components/ResetImageButton";
+import EnhancedAnalysisButton from "../src/components/EnhancedAnalysisButton";
 
 function Home() {
   const [predictions, setPredictions] = useState({});
@@ -16,8 +17,10 @@ function Home() {
   const [numPreds, setNumPreds] = useState(3);
   const [selectedModel, setSelectedModel] = useState("efficientnet_b0");
   const [file, setFile] = useState(null);
+  const [explanation, setExplanation] = useState("");
 
   const handleFileChange = (event) => {
+    setExplanation("");
     setIsLoading(true);
     const uploadedFile = event.target.files[0];
 
@@ -66,6 +69,32 @@ function Home() {
       .catch((error) => console.log(error));
   };
 
+  const handleEnhancedAnalysis = () => {
+    if (!file) return;
+
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("numPreds", numPreds);
+    formData.append("model", selectedModel);
+
+    fetch("http://127.0.0.1:5000/analyze", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setPredictions(data.predictions);
+        setransformedImageFilename(data.transformedImageFile);
+        setExplanation(data.explanation);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
   const handleNumPredsChange = (increment) => {
     if (increment && numPreds < 10) {
       setNumPreds(numPreds + 1);
@@ -95,13 +124,23 @@ function Home() {
             handleRefresh={handleRefresh}
             isLoading={isLoading}
           />
-          <PredictionDisplay predictions={predictions} isLoading={isLoading} />
+          <PredictionDisplay
+            predictions={predictions}
+            isLoading={isLoading}
+            explanation={explanation}
+          />
         </div>
       </div>
       <div>
         <ImageUpload handleFileChange={handleFileChange} imageUploaded={imageUploaded} />
         <NumPredictions value={numPreds} handleNumPredsChange={handleNumPredsChange} />
         <ModelSelection handleModelSelect={handleModelSelect} selectedModel={selectedModel} />
+        {imageUploaded && (
+          <EnhancedAnalysisButton
+            handleEnhancedAnalysis={handleEnhancedAnalysis}
+            isLoading={isLoading}
+          />
+        )}
       </div>
     </div>
   );
