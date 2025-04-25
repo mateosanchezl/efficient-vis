@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import Header from "../src/components/Header";
 import ImageDisplay from "../src/components/ImageDisplay";
@@ -98,7 +100,7 @@ function Home() {
   const handleNumPredsChange = (increment) => {
     if (increment && numPreds < 10) {
       setNumPreds(numPreds + 1);
-    } else if (!increment) {
+    } else if (!increment && numPreds > 1) {
       setNumPreds(numPreds - 1);
     }
   };
@@ -108,39 +110,52 @@ function Home() {
   };
 
   return (
-    <div className="relative">
+    <div className="min-h-screen bg-base-100">
       <Header selectedModel={selectedModel} />
-      <div>
-        <div>
-          <ImageDisplay
-            image={image}
-            imageUploaded={imageUploaded}
-            transformedImageFile={transformedImageFilename}
-          />
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="card bg-base-200 shadow-xl p-6">
+            <ImageDisplay
+              image={image}
+              imageUploaded={imageUploaded}
+              transformedImageFile={transformedImageFilename}
+            />
+            <div className="mt-4">
+              <ImageUpload handleFileChange={handleFileChange} imageUploaded={imageUploaded} />
+            </div>
+          </div>
+          <div className="flex items-end mt-4 w-full">
+            {imageUploaded && (
+              <EnhancedAnalysisButton
+                handleEnhancedAnalysis={handleEnhancedAnalysis}
+                isLoading={isLoading}
+              />
+            )}
+          </div>
+
+          <div className="card bg-base-200 shadow-xl p-6 mt-4">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">Results</h2>
+              <ResetImageButton
+                imageUploaded={imageUploaded}
+                handleRefresh={handleRefresh}
+                isLoading={isLoading}
+              />
+            </div>
+            <PredictionDisplay
+              predictions={predictions}
+              isLoading={isLoading}
+              explanation={explanation}
+            />
+          </div>
         </div>
-        <div>
-          <ResetImageButton
-            imageUploaded={imageUploaded}
-            handleRefresh={handleRefresh}
-            isLoading={isLoading}
-          />
-          <PredictionDisplay
-            predictions={predictions}
-            isLoading={isLoading}
-            explanation={explanation}
-          />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          <NumPredictions value={numPreds} handleNumPredsChange={handleNumPredsChange} />
+          <div className="mt-4">
+            <ModelSelection handleModelSelect={handleModelSelect} selectedModel={selectedModel} />
+          </div>
         </div>
-      </div>
-      <div>
-        <ImageUpload handleFileChange={handleFileChange} imageUploaded={imageUploaded} />
-        <NumPredictions value={numPreds} handleNumPredsChange={handleNumPredsChange} />
-        <ModelSelection handleModelSelect={handleModelSelect} selectedModel={selectedModel} />
-        {imageUploaded && (
-          <EnhancedAnalysisButton
-            handleEnhancedAnalysis={handleEnhancedAnalysis}
-            isLoading={isLoading}
-          />
-        )}
       </div>
     </div>
   );

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -14,7 +16,8 @@ function EnhancedAnalysisButton({ handleEnhancedAnalysis, isLoading }) {
   }, [isLoading]);
 
   return (
-    <div className="form-control w-full max-w-xs pt-4">
+    <div className="card bg-base-300 shadow-md p-4 h-full flex flex-col justify-between w-full">
+      <h3 className="font-medium mb-3">Advanced Features</h3>
       <button
         className="btn btn-primary w-full relative overflow-hidden group"
         onClick={handleEnhancedAnalysis}
@@ -48,6 +51,9 @@ function EnhancedAnalysisButton({ handleEnhancedAnalysis, isLoading }) {
           }}
         />
       </button>
+      <div className="text-xs text-base-content/60 mt-2">
+        Get detailed AI explanation of the image content
+      </div>
     </div>
   );
 }
