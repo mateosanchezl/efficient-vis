@@ -53,6 +53,7 @@ function Home() {
     formData.append("file", file);
     formData.append("numPreds", numPreds);
     formData.append("model", selectedModel);
+    console.log(formData);
     fetch("http://127.0.0.1:5000/upload", {
       method: "POST",
       body: formData,
@@ -98,18 +99,9 @@ function Home() {
         </div>
       </div>
       <div>
-        <ImageUpload
-          handleFileChange={handleFileChange}
-          imageUploaded={imageUploaded}
-        />
-        <NumPredictions
-          value={numPreds}
-          handleNumPredsChange={handleNumPredsChange}
-        />
-        <ModelSelection
-          handleModelSelect={handleModelSelect}
-          selectedModel={selectedModel}
-        />
+        <ImageUpload handleFileChange={handleFileChange} imageUploaded={imageUploaded} />
+        <NumPredictions value={numPreds} handleNumPredsChange={handleNumPredsChange} />
+        <ModelSelection handleModelSelect={handleModelSelect} selectedModel={selectedModel} />
       </div>
     </div>
   );

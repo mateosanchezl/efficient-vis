@@ -1,1 +1,5 @@
 .DS_Store
+/flask-api/images/*
+/flask-api/__pycache__/*
+/flask-api/instance/*
+/flask-api/venv/*
